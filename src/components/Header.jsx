@@ -1,30 +1,37 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 export default function Header() {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#0F7B5F", "#1DBF73"]} // 🔥 gradient
+      style={styles.container}
+    >
       <Text style={styles.location}>📍 Jaipur, Rajasthan</Text>
 
       <Text style={styles.greeting}>Hello, Citizen 👋</Text>
+
       <Text style={styles.subtitle}>
-        Let's make our city better together
+        Let’s make our city better together
       </Text>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#0F7B5F",
     padding: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    height:200,
+    paddingTop: 50,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+    height:300,
+    elevation: 6
   },
   location: {
     color: "white",
     fontSize: 14,
+    opacity: 0.9,
   },
   greeting: {
     color: "white",
@@ -35,5 +42,6 @@ const styles = StyleSheet.create({
   subtitle: {
     color: "white",
     marginTop: 5,
+    opacity: 0.9,
   },
 });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { LinearGradient } from 'react-native-linear-gradient';
-import { ScrollView } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import QuickActions from '../components/QuickActions';
@@ -17,13 +17,13 @@ import axios from 'axios';
 
 const BASE_URL = 'http://172.16.234.135:5000'; // 🔥 replace
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchIssues = async () => {
     try {
-      setLoading(true); // 🔥 ye add karo
+      setLoading(true);
       const res = await axios.get(`${BASE_URL}/api/issues`);
       setIssues(res.data);
     } catch (err) {
@@ -32,66 +32,42 @@ export default function HomeScreen({ navigation }) {
       setLoading(false);
     }
   };
-
-  const upvote = async id => {
-    try {
-      await axios.post(`${BASE_URL}/api/issues/upvote/${id}`);
-      fetchIssues(); // refresh
-    } catch (err) {
-      console.log('Upvote error:', err.message);
-    }
-  };
+  useFocusEffect(
+    useCallback(() => {
+      fetchIssues();
+    }, []),
+  );
 
   useEffect(() => {
     fetchIssues();
   }, []);
 
-  const renderItem = ({ item }) => <IssueCard item={item} />;
-
   return (
-    <ScrollView style={{ backgroundColor: '#F5F5F5' }}>
-      <Header />
-      <SearchBar />
-      <QuickActions navigation={navigation}/>
-
-      <View style={{ marginTop: -30, padding: 15 }}>
-        {/* rest of UI */}
-
-        <View style={styles.container}>
-          <Text style={styles.header}>CivicSense</Text>
-
-          {/* 🔥 Add Issue Button */}
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#0F7B5F',
-              elevation: 5,
-              shadowColor: '#000',
-              shadowOpacity: 0.2,
-              shadowRadius: 5,
-              padding: 10,
-              borderRadius: 8,
-              marginBottom: 10,
-            }}
-            onPress={() => navigation.navigate('AddIssue')}
-          >
-            <Text style={{ color: 'white', textAlign: 'center' }}>
-              Add New Issue
-            </Text>
-          </TouchableOpacity>
-          ;
-
-          {loading ? (
-            <ActivityIndicator size="large" />
-          ) : (
-            <FlatList
-              data={issues}
-              keyExtractor={item => item._id}
-              renderItem={renderItem}
-            />
-          )}
-        </View>
-      </View>
-    </ScrollView>
+    <FlatList
+      data={issues}
+      keyExtractor={item => item._id}
+      renderItem={({ item }) => <IssueCard item={item} />}
+      ListHeaderComponent={
+        <>
+          <Header />
+          <SearchBar />
+          <QuickActions />
+        </>
+      }
+      contentContainerStyle={{
+        backgroundColor: '#F5F5F5',
+        paddingBottom: 20,
+      }}
+      ListEmptyComponent={
+        loading ? (
+          <ActivityIndicator size="large" color="#0F7B5F" style={{ marginTop: 20 }} />
+        ) : (
+          <Text style={{ textAlign: 'center', marginTop: 20 }}>
+            No issues found
+          </Text>
+        )
+      }
+    />
   );
 }
 
