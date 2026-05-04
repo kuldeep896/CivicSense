@@ -240,7 +240,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "appmodules::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-appmodules-Debug-1a40dd6c75750440ef1c.json",
+					"jsonFile" : "target-appmodules-Debug-858f14c89752120427d5.json",
 					"name" : "appmodules",
 					"projectIndex" : 0
 				},
@@ -254,7 +254,7 @@
 				{
 					"directoryIndex" : 2,
 					"id" : "react_codegen_RNCSlider::@4898bc4726ecf1751b6a",
-					"jsonFile" : "target-react_codegen_RNCSlider-Debug-f10aa30d8d82526e47e9.json",
+					"jsonFile" : "target-react_codegen_RNCSlider-Debug-c5735b3534e97743fe95.json",
 					"name" : "react_codegen_RNCSlider",
 					"projectIndex" : 0
 				},
@@ -303,7 +303,7 @@
 				{
 					"directoryIndex" : 9,
 					"id" : "react_codegen_rnscreens::@25bcbd507e98d3a854ad",
-					"jsonFile" : "target-react_codegen_rnscreens-Debug-20d9d79f5e4384129374.json",
+					"jsonFile" : "target-react_codegen_rnscreens-Debug-6f059b44acaa89f1af52.json",
 					"name" : "react_codegen_rnscreens",
 					"projectIndex" : 0
 				},
@@ -317,7 +317,7 @@
 				{
 					"directoryIndex" : 8,
 					"id" : "react_codegen_safeareacontext::@7984cd80db47aa7b952a",
-					"jsonFile" : "target-react_codegen_safeareacontext-Debug-f940eedd606f3f36c6d2.json",
+					"jsonFile" : "target-react_codegen_safeareacontext-Debug-6841f61f4f273462f750.json",
 					"name" : "react_codegen_safeareacontext",
 					"projectIndex" : 0
 				}
@@ -327,7 +327,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/kulde/CivicSense/android/app/.cxx/Debug/706h2818/arm64-v8a",
+		"build" : "C:/Users/kulde/CivicSense/android/app/.cxx/Debug/706h2818/x86",
 		"source" : "C:/Users/kulde/CivicSense/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup"
 	},
 	"version" : 

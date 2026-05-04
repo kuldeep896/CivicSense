@@ -5,13 +5,15 @@ const issueSchema = new mongoose.Schema({
   description: String,
   category: String,
 
+  image: { type: String }, // 🔥 ADD THIS
+
   location: {
     type: {
       type: String,
       enum: ["Point"],
       default: "Point"
     },
-    coordinates: { type: [Number], required: true } // [lng, lat]
+    coordinates: { type: [Number], required: true }
   },
 
   severity: { type: Number, min: 1, max: 5, required: true },
@@ -21,7 +23,6 @@ const issueSchema = new mongoose.Schema({
   priorityScore: { type: Number, default: 0 }
 }, { timestamps: true });
 
-// geo index (future nearby queries ke liye)
 issueSchema.index({ location: "2dsphere" });
 
 module.exports = mongoose.model("Issue", issueSchema);

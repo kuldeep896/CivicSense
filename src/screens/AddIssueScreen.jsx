@@ -114,35 +114,43 @@ export default function AddIssueScreen({ navigation }) {
     }
 
     if (!lat || !lng) {
-      Alert.alert('Error', 'Please get location first');
+      Alert.alert('Error', 'Location required');
       return;
     }
 
     try {
       setLoading(true);
-      await axios.post(`${BASE_URL}/api/issues/report`, {
-        title,
-        description,
-        category,
-        severity,
-        lat,
-        lng,
-        image,
+
+      const formData = new FormData();
+
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('category', category);
+      formData.append('severity', severity);
+      formData.append('lat', lat);
+      formData.append('lng', lng);
+
+      if (image) {
+        const imageUri = image.startsWith('file://')
+          ? image
+          : `file://${image}`;
+
+        formData.append('image', {
+          uri: imageUri,
+          type: 'image/jpeg',
+          name: 'photo.jpg',
+        });
+      }
+
+      await axios.post(`${BASE_URL}/api/issues/report`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       setLoading(false);
 
-      Alert.alert('Success', 'Issue reported successfully 🎉', [
-        { text: 'OK', onPress: () => navigation.goBack() },
-      ]);
-
-      setTitle('');
-      setDescription('');
-      setCategory('');
-      setSeverity(1);
-      setImage(null);
-      setLat(null);
-      setLng(null);
+      Alert.alert('Success', 'Issue reported successfully');
 
       navigation.goBack();
     } catch (err) {

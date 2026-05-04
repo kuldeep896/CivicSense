@@ -1,70 +1,131 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-export default function IssueCard({ item }) {
-  const getColor = severity => {
-    if (severity >= 4) return '#EF4444';
-    if (severity >= 2) return '#F59E0B';
-    return '#10B981';
+export default function IssueCard({ item, navigation }) {
+  const getSeverityColor = severity => {
+    if (severity >= 4) return '#EF4444'; // High
+    if (severity >= 2) return '#F59E0B'; // Medium
+    return '#10B981'; // Low
   };
+
+  const getSeverityText = severity => {
+    if (severity >= 4) return 'High';
+    if (severity >= 2) return 'Medium';
+    return 'Low';
+  };
+
   return (
-    <View style={styles.card}>
-      {/* 🔥 Image */}
+    <TouchableOpacity
+      style={styles.card}
+      activeOpacity={0.9}
+      onPress={() => navigation.navigate('IssueDetail', { issue: item })}
+    >
+      {/* LEFT IMAGE */}
       <Image
-        source={{ uri: 'https://via.placeholder.com/300' }}
+        source={{
+          uri:
+            item.image ||
+            '"https://cdn-icons-png.flaticon.com/512/565/565547.png"',
+        }}
         style={styles.image}
       />
 
-      {/* Content */}
+      {/* RIGHT CONTENT */}
       <View style={styles.content}>
+        {/* Title */}
         <Text style={styles.title}>{item.title}</Text>
 
-        <Text style={styles.location}>📍 Jaipur</Text>
+        {/* Category */}
+        <Text style={styles.category}>{item.category}</Text>
 
+        {/* Location (optional future) */}
+        <Text style={styles.location}>📍 Haryana</Text>
+
+        {/* Bottom row */}
         <View style={styles.row}>
-          <Text style={styles.priority}>High</Text>
-          <Text style={styles.upvote}>⬆ {item.upvotes}</Text>
+          {/* Severity Badge */}
+          <View
+            style={[
+              styles.badge,
+              { backgroundColor: getSeverityColor(item.severity) + '15' },
+            ]}
+          >
+            <Text
+              style={[
+                styles.badgeText,
+                { color: getSeverityColor(item.severity) },
+              ]}
+            >
+              {getSeverityText(item.severity)}
+            </Text>
+          </View>
+
+          {/* Upvotes */}
+          <Text style={styles.upvotes}>⬆ {item.upvotes}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'white',
+    flexDirection: 'row',
+    backgroundColor: '#fff',
     borderRadius: 15,
-    marginVertical: 10,
-    overflow: 'hidden',
-    elevation: 4,
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 15,
+    elevation: 5,
   },
+
   image: {
-    width: '100%',
-    height: 140,
+    width: 110,
+    height: 90,
+    borderRadius: 10,
   },
+
   content: {
-    padding: 12,
+    flex: 1,
+    marginLeft: 10,
   },
+
   title: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
   },
-  location: {
-    color: '#777',
-    marginTop: 5,
+
+  category: {
+    color: '#666',
+    fontSize: 12,
+    marginTop: 2,
   },
+
+  location: {
+    color: '#999',
+    fontSize: 11,
+    marginTop: 2,
+  },
+
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    alignItems: 'center',
+    marginTop: 8,
   },
-  priority: {
-    backgroundColor: '#FFE5E5',
-    color: 'red',
+
+  badge: {
     paddingHorizontal: 8,
-    borderRadius: 10,
+    paddingVertical: 3,
+    borderRadius: 20,
   },
-  upvote: {
+
+  badgeText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+
+  upvotes: {
     color: '#0F7B5F',
     fontWeight: 'bold',
   },

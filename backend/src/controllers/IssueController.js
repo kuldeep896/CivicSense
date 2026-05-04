@@ -3,6 +3,7 @@ const { calculatePriority } = require('../services/priorityService');
 
 exports.reportIssue = async (req, res) => {
   try {
+    console.log('FILE:', req.file);
     console.log('BODY:', req.body);
     const { title, description, category, lat, lng, severity } = req.body;
 
@@ -11,16 +12,19 @@ exports.reportIssue = async (req, res) => {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
- const issue = new Issue({
-  title,
-  description,
-  category,
-  location: {
-    type: 'Point',
-    coordinates: [lng, lat], // 🔥 IMPORTANT (lng first)
-  },
-  severity,
-});
+    const imageUrl = req.file ? req.file.path : '';
+
+    const issue = new Issue({
+      title,
+      description,
+      category,
+      location: {
+        type: 'Point',
+        coordinates: [Number(lng), Number(lat)], // 🔥 convert
+      },
+      severity: Number(severity), // 🔥 convert
+      image: imageUrl,
+    });
 
     // priority compute
     issue.priorityScore = calculatePriority(issue);

@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { reportIssue } = require("../controllers/IssueController");
 const { getIssues } = require("../controllers/IssueController");
-console.log(getIssues);
+const upload = require("../middlewares/upload");
 
-// base: /api/issues
-router.post("/report", reportIssue);
+router.post("/report", upload.single("image"), reportIssue);
 
 // 🔥 connect route to controller
 router.get("/", getIssues);
